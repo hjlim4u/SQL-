@@ -1,0 +1,25 @@
+보호소에서는 몇 시에 입양이 가장 활발하게 일어나는지 알아보려 합니다. 0시부터 23시까지, 각 시간대별로 입양이 몇 건이나 발생했는지 조회하는 SQL문을 작성해주세요. 이때 결과는 시간대 순으로 정렬해야 합니다.
+https://school.programmers.co.kr/learn/courses/30/lessons/59413#qna
+
+처음 접근:
+Group By Hour(DATETIME) 명령어로 시간대별로 묶어서 출력을 했으나 테이블에 존재하지 않는 시간대는 SELECT이 안되는 문제 발생
+수동적으로 0부터 23까지 데이터를 생성해야 한다.
+
+임의 변수 hour 생성
+SET @hour := -1; --SET 변수(hour) :=/= 값 설정
+
+SELECT (@hour := @hour+1) as hour, --hour 값을 1씩 증가시키면서 select
+(SELECT COUNT(*) from ANIMAL_OUTS WHERE HOUR(DATETIME)=@hour) as count --@hour와 같은 시간대의 레코드 개수 select
+FROM ANIMAL_OUTS
+WHERE @hour < 23
+
+Using recursive 
+WITH RECURSIVE 생성할_뷰_이름 AS
+(
+	초기_SQL
+    
+    	UNION ALL
+
+	반복할_SQL_반복을_멈출_WHERE절_포함
+)
+
